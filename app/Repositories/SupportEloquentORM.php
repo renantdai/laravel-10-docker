@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Repositories;
+
 use App\Repositories\SupportRepositoryInterface;
 use App\DTO\CreateSupportDTO;
 use App\DTO\UpdateSupportDTO;
@@ -21,7 +23,7 @@ class SupportEloquentORM implements SupportRepositoryInterface {
                     $query->orWhere('body', 'like', "%{$filter}%");
                 }
             })
-            ->all()
+            ->get()
             ->toArray();
     }
 
