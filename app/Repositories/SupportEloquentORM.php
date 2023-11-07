@@ -29,7 +29,7 @@ class SupportEloquentORM implements SupportRepositoryInterface {
 
     public function findOne(string $id): stdClass |null {
         $support =  $this->model->find($id);
-        if ($support) {
+        if (!$support) {
             return null;
         }
 
