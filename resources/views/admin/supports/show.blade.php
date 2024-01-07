@@ -1,5 +1,12 @@
-<h1>Detalhes da dúvida {{ $support->id }}</h1>
+@extends('admin.layouts.app')
 
+@section('title', "Dealhes da Dúvida { $support->subject }")
+
+@section('header')
+<h1 class="text-lg text-black-500">Dúvida {{ $support->subject }}</h1>
+@endsection
+
+@section('content')
 <ul>
     <li>Assunto: {{ $support->subject }}</li>
     <li>Status: {{ $support->status }}</li>
@@ -11,3 +18,4 @@
     @method('DELETE')
     <button type="submit">Deletar</button>
 </form>
+@endsection
