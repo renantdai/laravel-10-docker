@@ -19,8 +19,24 @@ class SupportController extends Controller {
     /**
      * Display a listing of the resource.
      */
-    public function index() {
-        //
+    public function index(Request $request) {
+        $supports = $this->service->paginate(
+            page: $request->get('page', 1),
+            totalPerPage: $request->get('per_page', 1),
+            filter: $request->filter
+        );
+
+        return SupportResource::collection($supports->items())
+            ->additional([
+                'meta' => [
+                    'total' => $supports->total(),
+                    'is_first_page' => $supports->isFirstPage(),
+                    'is_last_page' => $supports->isLastPage(),
+                    'current_page' =>  $supports->currentPage(),
+                    'next_page' =>  $supports->getNumberNextPage(),
+                    'previous_page' => $supports->getNumberPreviousPage()
+                ]
+            ]);
     }
 
     /**
@@ -53,7 +69,7 @@ class SupportController extends Controller {
     public function update(StoreUpdateSupport $request, string $id) {
         $support = $this->service->update(UpdateSupportDTO::makeFromRequest($request, $id));
 
-        if(!$support){
+        if (!$support) {
             return response()->json([
                 'error' => 'Not Found'
             ], Response::HTTP_NOT_FOUND);
